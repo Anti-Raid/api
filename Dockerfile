@@ -1,22 +1,26 @@
-FROM golang:1.22 AS build_base
+# syntax=docker/dockerfile:1
 
-RUN apt update -y \
-    && apt install -y git build-essential cmake zlib1g-dev
+FROM golang:1.23
 
-WORKDIR /tmp/go.api
+# Set destination for COPY
+WORKDIR /app
 
-RUN cd /tmp/go.api
+# Download Go modules
+COPY go.mod go.sum ./
+RUN go mod download
 
-COPY go.mod .
-COPY go.sum .
-RUN go mod tidy
-COPY . .
-RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 LD_LIBRARY_PATH='/usr/local/lib' \
-    go build -o ./out/go.api
+# Copy the source code. Note the slash at the end, as explained in
+# https://docs.docker.com/engine/reference/builder/#copy
+COPY *.go ./
 
-FROM alpine:3
-RUN apk add ca-certificates libc6-compat
-COPY --from=build_base /usr/local/lib /usr/local/lib
-COPY --from=build_base /tmp/go.api/out/go.api /app/go.api
-CMD ["/app/go.api"]
-LABEL org.opencontainers.image.source go.api
+# Build
+RUN CGO_ENABLED=0 GOOS=linux go build -o /api
+
+# To bind to a TCP port, runtime parameters must be supplied to the docker command.
+# But we can (optionally) document in the Dockerfile what ports
+# the application is going to listen on by default.
+# https://docs.docker.com/engine/reference/builder/#expose
+EXPOSE 8081
+
+# Run
+CMD [ "/api" ]
