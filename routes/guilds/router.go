@@ -46,8 +46,8 @@ func (b Router) Routes(r *chi.Mux) {
 		},
 		ExtData: map[string]any{
 			api.PERMISSION_CHECK_KEY: api.PermissionCheck{
-				Command: func(d uapi.Route, r *http.Request) string {
-					return "modules list"
+				Permission: func(d uapi.Route, r *http.Request) string {
+					return "modules.list"
 				},
 				GuildID: func(d uapi.Route, r *http.Request) string {
 					return chi.URLParam(r, "guild_id")
@@ -85,8 +85,8 @@ func (b Router) Routes(r *chi.Mux) {
 		},
 		ExtData: map[string]any{
 			api.PERMISSION_CHECK_KEY: api.PermissionCheck{
-				Command: func(d uapi.Route, r *http.Request) string {
-					return "commands list"
+				Permission: func(d uapi.Route, r *http.Request) string {
+					return "commands.list"
 				},
 				GuildID: func(d uapi.Route, r *http.Request) string {
 					return chi.URLParam(r, "guild_id")

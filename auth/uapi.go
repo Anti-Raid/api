@@ -23,8 +23,8 @@ import (
 )
 
 type PermissionCheck struct {
-	Command func(d uapi.Route, r *http.Request) string
-	GuildID func(d uapi.Route, r *http.Request) string
+	Permission func(d uapi.Route, r *http.Request) string
+	GuildID    func(d uapi.Route, r *http.Request) string
 }
 
 const (
@@ -44,7 +44,7 @@ func (d DefaultResponder) New(err string, ctx map[string]string) any {
 func HandlePermissionCheck(
 	userId,
 	guildId,
-	command string,
+	perm string,
 	checkCommandOptions rpc_messages.RpcCheckCommandOptions,
 ) (hresp uapi.HttpResponse, ok bool) {
 	if guildId == "" {
@@ -55,11 +55,11 @@ func HandlePermissionCheck(
 		}, false
 	}
 
-	permRes, err := rpc.CheckCommandPermission(
+	permRes, err := rpc.CheckUserHasPermission(
 		state.Context,
 		guildId,
 		userId,
-		command,
+		perm,
 		checkCommandOptions,
 	)
 
@@ -74,10 +74,10 @@ func HandlePermissionCheck(
 		}, false
 	}
 
-	if !permRes.IsOk {
+	if !permRes.IsOk() {
 		return uapi.HttpResponse{
 			Status: http.StatusForbidden,
-			Json:   permRes.PermRes,
+			Json:   permRes,
 			Headers: map[string]string{
 				"X-Error-Type": "permission_check",
 			},
@@ -253,7 +253,7 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 					}
 
 					// First check for web use permissions
-					hresp, ok := HandlePermissionCheck(id.String, guildId, "web use", rpc_messages.RpcCheckCommandOptions{
+					hresp, ok := HandlePermissionCheck(id.String, guildId, "web.use", rpc_messages.RpcCheckCommandOptions{
 						CustomResolvedKittycatPerms: permLimits,
 					})
 
@@ -261,7 +261,7 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 						return uapi.AuthData{}, hresp, false
 					}
 
-					cmd := permCheck.Command(r, req)
+					cmd := permCheck.Permission(r, req)
 
 					if cmd != "" {
 						hresp, ok = HandlePermissionCheck(id.String, guildId, cmd, rpc_messages.RpcCheckCommandOptions{

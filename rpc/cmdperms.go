@@ -8,7 +8,7 @@ import (
 	"github.com/Anti-Raid/api/state"
 )
 
-// Calls the CheckCommandPermission method to check whether or not a command is runnable
+// Calls the CheckCommandPermission method to check whether or not a user has permission to run a command
 func CheckCommandPermission(
 	ctx context.Context,
 	guildID string,

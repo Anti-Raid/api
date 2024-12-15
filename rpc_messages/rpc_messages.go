@@ -145,3 +145,8 @@ type ExecuteTemplateResponse struct {
 		Res silverpelt.PermissionResult `json:"res"`
 	} `json:"PermissionError,omitempty"`
 }
+
+type CheckUserHasKittycatPermissionsRequest struct {
+	Perm string                 `json:"perm"`
+	Opts RpcCheckCommandOptions `json:"opts"`
+}

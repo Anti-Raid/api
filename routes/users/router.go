@@ -58,7 +58,7 @@ func (b Router) Routes(r *chi.Mux) {
 		},
 		ExtData: map[string]any{
 			api.PERMISSION_CHECK_KEY: api.PermissionCheck{
-				Command: func(d uapi.Route, r *http.Request) string {
+				Permission: func(d uapi.Route, r *http.Request) string {
 					return "" // No extra permissions are needed
 				},
 				GuildID: func(d uapi.Route, r *http.Request) string {
