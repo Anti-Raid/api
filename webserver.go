@@ -19,7 +19,6 @@ import (
 	"github.com/Anti-Raid/api/routes/core"
 	"github.com/Anti-Raid/api/routes/guilds"
 	"github.com/Anti-Raid/api/routes/jobs"
-	"github.com/Anti-Raid/api/routes/platform"
 	"github.com/Anti-Raid/api/routes/users"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
@@ -124,7 +123,6 @@ func CreateWebserver() *chi.Mux {
 		auth.Router{},
 		core.Router{},
 		guilds.Router{},
-		platform.Router{},
 		users.Router{},
 		jobs.Router{},
 	}
