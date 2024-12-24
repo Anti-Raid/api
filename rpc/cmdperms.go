@@ -14,7 +14,6 @@ func CheckCommandPermission(
 	guildID string,
 	userID string,
 	command string,
-	checkCommandOptions rpc_messages.RpcCheckCommandOptions,
 ) (res *rpc_messages.CheckCommandPermission, err error) {
 	return RpcQuery[rpc_messages.CheckCommandPermission](
 		ctx,
@@ -23,7 +22,6 @@ func CheckCommandPermission(
 		fmt.Sprintf("%s/check-command-permission/%s/%s", CalcBotAddr(), guildID, userID),
 		rpc_messages.CheckCommandPermissionRequest{
 			Command: command,
-			Opts:    checkCommandOptions,
 		},
 		true,
 	)

@@ -10,7 +10,6 @@ import (
 
 	"github.com/Anti-Raid/api/constants"
 	"github.com/Anti-Raid/api/rpc"
-	"github.com/Anti-Raid/api/rpc_messages"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
 	"github.com/Anti-Raid/corelib_go/splashcore"
@@ -45,7 +44,6 @@ func HandlePermissionCheck(
 	userId,
 	guildId,
 	perm string,
-	checkCommandOptions rpc_messages.RpcCheckCommandOptions,
 ) (hresp uapi.HttpResponse, ok bool) {
 	if guildId == "" {
 		state.Logger.Error("Guild ID is empty")
@@ -60,7 +58,6 @@ func HandlePermissionCheck(
 		guildId,
 		userId,
 		perm,
-		checkCommandOptions,
 	)
 
 	if err != nil {
@@ -74,36 +71,16 @@ func HandlePermissionCheck(
 		}, false
 	}
 
-	if !permRes.IsOk() {
+	if permRes.Result != nil {
 		return uapi.HttpResponse{
 			Status: http.StatusForbidden,
-			Json:   permRes,
-			Headers: map[string]string{
-				"X-Error-Type": "permission_check",
+			Json: types.ApiError{
+				Message: *permRes.Result,
 			},
 		}, false
 	}
 
 	return uapi.HttpResponse{}, true
-}
-
-func PermLimits(d uapi.AuthData) *[]string {
-	if !d.Authorized {
-		return nil
-	}
-
-	permLimits, ok := d.Data["perm_limits"].(*[]string)
-
-	if !ok {
-		p := []string{}
-		return &p
-	}
-
-	if permLimits == nil || len(*permLimits) == 0 {
-		return nil
-	}
-
-	return permLimits
 }
 
 // Authorizes a request
@@ -194,9 +171,8 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 			// Check if the user exists with said API token
 			var id pgtype.Text
 			var sessId string
-			var permLimits *[]string
 
-			err = state.Pool.QueryRow(state.Context, "SELECT id, user_id, perm_limits FROM web_api_tokens WHERE token = $1", strings.Replace(authHeader, "User ", "", 1)).Scan(&sessId, &id, &permLimits)
+			err = state.Pool.QueryRow(state.Context, "SELECT id, user_id FROM web_api_tokens WHERE token = $1", strings.Replace(authHeader, "User ", "", 1)).Scan(&sessId, &id)
 
 			if err != nil {
 				state.Logger.Error("Failed to get user ID from web API token", zap.Error(err))
@@ -205,10 +181,6 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 
 			if !id.Valid {
 				continue
-			}
-
-			if permLimits == nil || len(*permLimits) == 0 {
-				permLimits = nil
 			}
 
 			// Check if the user is banned
@@ -253,9 +225,7 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 					}
 
 					// First check for web use permissions
-					hresp, ok := HandlePermissionCheck(id.String, guildId, "web.use", rpc_messages.RpcCheckCommandOptions{
-						CustomResolvedKittycatPerms: permLimits,
-					})
+					hresp, ok := HandlePermissionCheck(id.String, guildId, "web.use")
 
 					if !ok {
 						return uapi.AuthData{}, hresp, false
@@ -264,9 +234,7 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 					cmd := permCheck.Permission(r, req)
 
 					if cmd != "" {
-						hresp, ok = HandlePermissionCheck(id.String, guildId, cmd, rpc_messages.RpcCheckCommandOptions{
-							CustomResolvedKittycatPerms: permLimits,
-						})
+						hresp, ok = HandlePermissionCheck(id.String, guildId, cmd)
 
 						if !ok {
 							return uapi.AuthData{}, hresp, false
@@ -281,8 +249,7 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 				Authorized: true,
 				Banned:     userstate == "banned" || userstate == "api_banned",
 				Data: map[string]any{
-					"session_id":  sessId,
-					"perm_limits": permLimits,
+					"session_id": sessId,
 				},
 			}
 			urlIds = []string{id.String}

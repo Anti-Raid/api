@@ -10,7 +10,6 @@ import (
 	"time"
 
 	api "github.com/Anti-Raid/api/auth"
-	"github.com/Anti-Raid/api/rpc_messages"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
 
@@ -146,7 +145,7 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 
 	// Check user permissions based on permMap
 	if perm, ok := permList[name]; ok {
-		hresp, ok := api.HandlePermissionCheck(iot.DiscordUser.ID, guildId, perm, rpc_messages.RpcCheckCommandOptions{})
+		hresp, ok := api.HandlePermissionCheck(iot.DiscordUser.ID, guildId, perm)
 
 		if !ok {
 			return hresp

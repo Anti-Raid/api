@@ -1,7 +1,6 @@
 package types
 
 import (
-	"github.com/Anti-Raid/corelib_go/silverpelt"
 	"github.com/infinitybotlist/eureka/dovewing/dovetypes"
 )
 
@@ -50,7 +49,4 @@ type ExecuteTemplateResponse struct {
 	ExecErr *struct {
 		Error string `json:"error"`
 	} `json:"ExecErr,omitempty"`
-	PermissionError *struct {
-		Res silverpelt.PermissionResult `json:"res"`
-	} `json:"PermissionError,omitempty"`
 }

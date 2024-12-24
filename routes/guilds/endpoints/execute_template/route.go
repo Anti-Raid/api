@@ -83,9 +83,8 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 
 	return uapi.HttpResponse{
 		Json: types.ExecuteTemplateResponse{
-			Ok:              resp.Ok,
-			ExecErr:         resp.ExecErr,
-			PermissionError: resp.PermissionError,
+			Ok:      resp.Ok,
+			ExecErr: resp.ExecErr,
 		},
 	}
 }
