@@ -1,4 +1,4 @@
-package get_modules
+package get_bot_state
 
 import (
 	"net/http"
@@ -6,7 +6,6 @@ import (
 	"github.com/Anti-Raid/api/rpc"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/Anti-Raid/corelib_go/silverpelt"
 
 	docs "github.com/infinitybotlist/eureka/doclib"
 	"github.com/infinitybotlist/eureka/uapi"
@@ -16,21 +15,21 @@ func Docs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Get Modules",
 		Description: "This endpoint returns the modules on AntiRaid.",
-		Resp:        []silverpelt.CanonicalModule{},
+		Resp:        types.BotState{},
 		Params:      []docs.Parameter{},
 	}
 }
 
-var ModulesCache *[]silverpelt.CanonicalModule
+var BotStateCache *types.BotState
 
 func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
-	if ModulesCache != nil {
+	if BotStateCache != nil {
 		return uapi.HttpResponse{
-			Json: ModulesCache,
+			Json: BotStateCache,
 		}
 	}
 
-	modules, err := rpc.Modules(state.Context)
+	bs, err := rpc.BotState(state.Context)
 
 	if err != nil {
 		return uapi.HttpResponse{
@@ -39,9 +38,13 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	ModulesCache = modules
+	BotStateCache = &types.BotState{
+		Commands:           bs.Commands,
+		Settings:           bs.Settings,
+		CommandPermissions: bs.CommandPermissions,
+	}
 
 	return uapi.HttpResponse{
-		Json: modules,
+		Json: BotStateCache,
 	}
 }

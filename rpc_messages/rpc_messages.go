@@ -88,3 +88,18 @@ type ExecuteTemplateResponse struct {
 type CheckUserHasKittycatPermissionsRequest struct {
 	Perm string `json:"perm"`
 }
+
+/**
+#[derive(Serialize, Deserialize)]
+pub struct BotState {
+    pub commands: Vec<crate::botlib::canonical::CanonicalCommand>,
+    pub settings: Vec<ar_settings::types::Setting>,
+    pub command_permissions: crate::botlib::CommandPermissionMetadata,
+}
+*/
+
+type BotState struct {
+	Commands           []silverpelt.CanonicalCommand      `json:"commands"`
+	Settings           []silverpelt.CanonicalConfigOption `json:"settings"`
+	CommandPermissions map[string][]string                `json:"command_permissions"`
+}

@@ -2,8 +2,8 @@ package core
 
 import (
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_api_config"
+	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_state"
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_stats"
-	"github.com/Anti-Raid/api/routes/core/endpoints/get_modules"
 	"github.com/go-chi/chi/v5"
 	"github.com/infinitybotlist/eureka/uapi"
 )
@@ -26,11 +26,11 @@ func (b Router) Routes(r *chi.Mux) {
 	}.Route(r)
 
 	uapi.Route{
-		Pattern: "/modules",
+		Pattern: "/bot-state",
 		OpId:    "get_modules",
 		Method:  uapi.GET,
-		Docs:    get_modules.Docs,
-		Handler: get_modules.Route,
+		Docs:    get_bot_state.Docs,
+		Handler: get_bot_state.Route,
 	}.Route(r)
 
 	uapi.Route{
