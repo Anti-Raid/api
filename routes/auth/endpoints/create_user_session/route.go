@@ -64,17 +64,13 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	if len(createData.PermLimits) == 0 {
-		createData.PermLimits = []string{}
-	}
-
 	// Create session
 	sessionToken := crypto.RandString(128)
 	var sessionId string
 
 	expiry := time.Now().Add(time.Duration(createData.Expiry) * time.Second)
 
-	err = state.Pool.QueryRow(d.Context, "INSERT INTO web_api_tokens (token, user_id, name, type, expiry, perm_limits) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id", sessionToken, d.Auth.ID, createData.Name, createData.Type, expiry, createData.PermLimits).Scan(&sessionId)
+	err = state.Pool.QueryRow(d.Context, "INSERT INTO web_api_tokens (token, user_id, name, type, expiry) VALUES ($1, $2, $3, $4, $5) RETURNING id", sessionToken, d.Auth.ID, createData.Name, createData.Type, expiry).Scan(&sessionId)
 
 	if err != nil {
 		state.Logger.Error("Error while creating user session", zap.Error(err))
