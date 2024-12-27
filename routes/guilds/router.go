@@ -2,7 +2,6 @@ package guilds
 
 import (
 	api "github.com/Anti-Raid/api/auth"
-	"github.com/Anti-Raid/api/routes/guilds/endpoints/execute_template"
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/get_staff_team"
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/settings_execute"
 	"github.com/Anti-Raid/corelib_go/splashcore"
@@ -33,22 +32,6 @@ func (b Router) Routes(r *chi.Mux) {
 		Method:  uapi.POST,
 		Docs:    settings_execute.Docs,
 		Handler: settings_execute.Route,
-		Auth: []uapi.AuthType{
-			{
-				Type: splashcore.TargetTypeUser,
-			},
-		},
-		ExtData: map[string]any{
-			api.PERMISSION_CHECK_KEY: nil, // Authz is performed in the handler itself
-		},
-	}.Route(r)
-
-	uapi.Route{
-		Pattern: "/guilds/{guild_id}/execute-template",
-		OpId:    "execute_template",
-		Method:  uapi.POST,
-		Docs:    execute_template.Docs,
-		Handler: execute_template.Route,
 		Auth: []uapi.AuthType{
 			{
 				Type: splashcore.TargetTypeUser,
