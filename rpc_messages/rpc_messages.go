@@ -1,19 +1,18 @@
 package rpc_messages
 
 import (
-	"github.com/Anti-Raid/corelib_go/ext_types"
-	"github.com/Anti-Raid/corelib_go/silverpelt"
+	"github.com/Anti-Raid/api/types"
 	orderedmap "github.com/wk8/go-ordered-map/v2"
 )
 
 type BaseGuildUserInfo struct {
-	OwnerID   string                                  `json:"owner_id"`
-	Name      string                                  `json:"name"`
-	Icon      *string                                 `json:"icon"`
-	Roles     []ext_types.SerenityRole                `json:"roles"`
-	UserRoles []string                                `json:"user_roles"`
-	BotRoles  []string                                `json:"bot_roles"`
-	Channels  []ext_types.GuildChannelWithPermissions `json:"channels"`
+	OwnerID   string                              `json:"owner_id"`
+	Name      string                              `json:"name"`
+	Icon      *string                             `json:"icon"`
+	Roles     []types.SerenityRole                `json:"roles"`
+	UserRoles []string                            `json:"user_roles"`
+	BotRoles  []string                            `json:"bot_roles"`
+	Channels  []types.GuildChannelWithPermissions `json:"channels"`
 }
 
 type CheckCommandPermission struct {
@@ -26,7 +25,7 @@ type CheckCommandPermissionRequest struct {
 
 type SettingsOperationRequest struct {
 	Fields  orderedmap.OrderedMap[string, any] `json:"fields"`
-	Op      silverpelt.CanonicalOperationType  `json:"op"`
+	Op      types.CanonicalOperationType       `json:"op"`
 	Setting string                             `json:"setting"`
 }
 
@@ -35,7 +34,7 @@ type CanonicalSettingsResult struct {
 		Fields []orderedmap.OrderedMap[string, any] `json:"fields"`
 	} `json:"Ok"`
 	Err *struct {
-		Error silverpelt.CanonicalSettingsError `json:"error"`
+		Error types.CanonicalSettingsError `json:"error"`
 	} `json:"Err"`
 }
 
@@ -99,7 +98,7 @@ pub struct BotState {
 */
 
 type BotState struct {
-	Commands           []silverpelt.CanonicalCommand      `json:"commands"`
-	Settings           []silverpelt.CanonicalConfigOption `json:"settings"`
-	CommandPermissions map[string][]string                `json:"command_permissions"`
+	Commands           []types.CanonicalCommand      `json:"commands"`
+	Settings           []types.CanonicalConfigOption `json:"settings"`
+	CommandPermissions map[string][]string           `json:"command_permissions"`
 }

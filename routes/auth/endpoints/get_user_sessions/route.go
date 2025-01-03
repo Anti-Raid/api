@@ -7,7 +7,7 @@ import (
 
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/Anti-Raid/corelib_go/structparser/db"
+	"github.com/Anti-Raid/corelib_go/utils"
 	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 
@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	webApiTokensCols = strings.Join(db.GetCols(types.UserSession{}), ", ")
+	webApiTokensCols = strings.Join(utils.GetCols(types.UserSession{}), ", ")
 )
 
 func Docs() *docs.Doc {

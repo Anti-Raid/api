@@ -7,7 +7,7 @@ import (
 
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/Anti-Raid/corelib_go/structparser/db"
+	"github.com/Anti-Raid/corelib_go/utils"
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	userRows    = db.GetCols(types.User{})
+	userRows    = utils.GetCols(types.User{})
 	userRowsStr = strings.Join(userRows, ", ")
 )
 
