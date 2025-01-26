@@ -34,7 +34,7 @@ type CanonicalSettingsResult struct {
 		Fields []orderedmap.OrderedMap[string, any] `json:"fields"`
 	} `json:"Ok"`
 	Err *struct {
-		Error types.CanonicalSettingsError `json:"error"`
+		Error string `json:"error"`
 	} `json:"Err"`
 }
 

@@ -27,46 +27,6 @@ type CanonicalCommand struct {
 	Arguments          []CanonicalCommandArgument `json:"arguments"`
 }
 
-type CanonicalSettingsError struct {
-	OperationNotSupported *struct {
-		Operation CanonicalOperationType `json:"operation"`
-	} `json:"OperationNotSupported,omitempty"`
-	Generic *struct {
-		Message string `json:"message"`
-		Src     string `json:"src"`
-		Typ     string `json:"typ"`
-	} `json:"Generic,omitempty"`
-	SchemaTypeValidationError *struct {
-		Column       string `json:"column"`
-		ExpectedType string `json:"expected_type"`
-		GotType      string `json:"got_type"`
-	} `json:"SchemaTypeValidationError,omitempty"`
-	SchemaNullValueValidationError *struct {
-		Column string `json:"column"`
-	} `json:"SchemaNullValueValidationError,omitempty"`
-	SchemaCheckValidationError *struct {
-		Column        string `json:"column"`
-		Check         string `json:"check"`
-		Error         string `json:"error"`
-		AcceptedRange string `json:"accepted_range"`
-	} `json:"SchemaCheckValidationError,omitempty"`
-	MissingOrInvalidField *struct {
-		Field string `json:"field"`
-		Src   string `json:"src"`
-	} `json:"MissingOrInvalidField,omitempty"`
-	RowExists *struct {
-		ColumnId string `json:"column_id"`
-		Count    int64  `json:"count"`
-	} `json:"RowExists,omitempty"`
-	RowDoesNotExist *struct {
-		ColumnId string `json:"column_id"`
-	} `json:"RowDoesNotExist,omitempty"`
-	MaximumCountReached *struct {
-		Max     uint64 `json:"max"`
-		Current uint64 `json:"current"`
-	} `json:"MaximumCountReached,omitempty"`
-}
-
 type CanonicalColumnType struct {
 	Scalar *struct {
 		Inner CanonicalInnerColumnType `json:"inner"`

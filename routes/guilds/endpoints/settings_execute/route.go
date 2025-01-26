@@ -120,9 +120,8 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	if resp.Err != nil {
 		return uapi.HttpResponse{
 			Status: http.StatusBadRequest,
-			Json:   resp.Err.Error,
-			Headers: map[string]string{
-				"X-Error-Type": "settings_error",
+			Json: types.ApiError{
+				Message: resp.Err.Error,
 			},
 		}
 	}
