@@ -19,10 +19,6 @@ type CheckCommandPermission struct {
 	Result *string `json:"result"`
 }
 
-type CheckCommandPermissionRequest struct {
-	Command string `json:"command"`
-}
-
 type SettingsOperationRequest struct {
 	Fields  orderedmap.OrderedMap[string, any] `json:"fields"`
 	Op      types.CanonicalOperationType       `json:"op"`
