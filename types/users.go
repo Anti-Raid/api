@@ -30,12 +30,11 @@ channels: Vec<GuildChannel>,
 */
 
 type UserGuildBaseData struct {
-	OwnerID                 string                        `json:"owner_id" description:"The ID of the guild owner"`
-	Name                    string                        `json:"name" description:"The name of the guild"`
-	Icon                    *string                       `json:"icon" description:"The icon of the guild"`
-	Roles                   []SerenityRole                `json:"roles" description:"The roles of the guild"`
-	UserRoles               []string                      `json:"user_roles" description:"The role IDs the user has in the guild"`
-	BotRoles                []string                      `json:"bot_roles" description:"The role IDs the bot has in the guild"`
-	Channels                []GuildChannelWithPermissions `json:"channels" description:"The channels of the guild with permission info"`
-	GuildFinishedOnboarding bool                          `json:"finished_onboarding" description:"Whether the user has finished onboarding"`
+	OwnerID   string                        `json:"owner_id" description:"The ID of the guild owner"`
+	Name      string                        `json:"name" description:"The name of the guild"`
+	Icon      *string                       `json:"icon" description:"The icon of the guild"`
+	Roles     []SerenityRole                `json:"roles" description:"The roles of the guild"`
+	UserRoles []string                      `json:"user_roles" description:"The role IDs the user has in the guild"`
+	BotRoles  []string                      `json:"bot_roles" description:"The role IDs the bot has in the guild"`
+	Channels  []GuildChannelWithPermissions `json:"channels" description:"The channels of the guild with permission info"`
 }

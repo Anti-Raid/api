@@ -71,29 +71,15 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	var finishedOnboarding bool
-
-	err = state.Pool.QueryRow(d.Context, "SELECT finished_onboarding FROM guilds WHERE id = $1", guildId).Scan(&finishedOnboarding)
-
-	if err != nil {
-		return uapi.HttpResponse{
-			Status: http.StatusInternalServerError,
-			Json: types.ApiError{
-				Message: "Error fetching onboarding status: " + err.Error(),
-			},
-		}
-	}
-
 	return uapi.HttpResponse{
 		Json: types.UserGuildBaseData{
-			OwnerID:                 bgui.OwnerID,
-			Name:                    bgui.Name,
-			Icon:                    bgui.Icon,
-			Roles:                   bgui.Roles,
-			UserRoles:               bgui.UserRoles,
-			BotRoles:                bgui.BotRoles,
-			Channels:                bgui.Channels,
-			GuildFinishedOnboarding: finishedOnboarding,
+			OwnerID:   bgui.OwnerID,
+			Name:      bgui.Name,
+			Icon:      bgui.Icon,
+			Roles:     bgui.Roles,
+			UserRoles: bgui.UserRoles,
+			BotRoles:  bgui.BotRoles,
+			Channels:  bgui.Channels,
 		},
 	}
 }
