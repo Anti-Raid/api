@@ -77,11 +77,21 @@ func Setup() {
 
 	Logger = snippets.CreateZap()
 
+	// For docker, override postgres url if PostgresURL env var is set
+	if os.Getenv("POSTGRES_URL") != "" {
+		Config.Meta.PostgresURL = os.Getenv("POSTGRES_URL")
+	}
+
 	// Postgres
 	Pool, err = pgxpool.New(Context, Config.Meta.PostgresURL)
 
 	if err != nil {
 		panic(err)
+	}
+
+	// For docker, override the redis url
+	if os.Getenv("REDIS_URL") != "" {
+		Config.Meta.RedisURL = os.Getenv("REDIS_URL")
 	}
 
 	// Reuidis
@@ -109,6 +119,11 @@ func Setup() {
 
 	if err != nil {
 		panic(err)
+	}
+
+	// For docker, override proxy if PROXY_URL env var is set
+	if os.Getenv("PROXY_URL") != "" {
+		Config.Meta.Proxy = os.Getenv("PROXY_URL")
 	}
 
 	Discord.Client.Transport = proxy.NewHostRewriter(strings.Replace(Config.Meta.Proxy, "http://", "", 1), http.DefaultTransport, func(s string) {
