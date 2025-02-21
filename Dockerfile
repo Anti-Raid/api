@@ -11,10 +11,13 @@ RUN go mod download
 
 # Copy the source code. Note the slash at the end, as explained in
 # https://docs.docker.com/engine/reference/builder/#copy
-COPY *.go ./
+COPY . ./
+
+# Print out the current working directory
+# RUN ls && exit 1
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux go build -o /api
+RUN CGO_ENABLED=0 GOOS=linux go build -v -o /api
 
 # To bind to a TCP port, runtime parameters must be supplied to the docker command.
 # But we can (optionally) document in the Dockerfile what ports
