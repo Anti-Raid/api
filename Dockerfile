@@ -25,7 +25,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 # But we can (optionally) document in the Dockerfile what ports
 # the application is going to listen on by default.
 # https://docs.docker.com/engine/reference/builder/#expose
-EXPOSE 8081
+EXPOSE 5600
 
 # Run
 CMD [ "/api" ]
