@@ -208,11 +208,14 @@ func CreateWebserver() *chi.Mux {
 func main() {
 	state.Setup()
 
+	state.Logger.Debug("State setup complete. Now starting webserver...")
+
 	state.CurrentOperationMode = "webserver"
 
 	r := CreateWebserver()
 
 	// If GOOS is windows, do normal http server
+	state.Logger.Info("Starting webserver...", zap.Int("port", state.Config.Meta.Port))
 	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
 		upg, _ := tableflip.New(tableflip.Options{})
 		defer upg.Stop()

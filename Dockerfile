@@ -17,7 +17,9 @@ COPY . ./
 # RUN ls && exit 1
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux go build -v -o /api
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \ 
+    CGO_ENABLED=0 GOOS=linux go build -v -o /api
 
 # To bind to a TCP port, runtime parameters must be supplied to the docker command.
 # But we can (optionally) document in the Dockerfile what ports

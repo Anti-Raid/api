@@ -177,6 +177,11 @@ func Setup() {
 		},
 	})
 
+	// Override bot url
+	if os.Getenv("BOT_URL") != "" {
+		Config.BasePorts.BotBaseAddr = os.Getenv("BOT_URL")
+	}	
+
 	IpcClient.Timeout = 30 * time.Second
 	IpcClient.Transport = &http2.Transport{
 		AllowHTTP:      true,
