@@ -1,4 +1,4 @@
-package settings_execute
+package settings_execute_anonymous
 
 import (
 	"net/http"
@@ -9,7 +9,6 @@ import (
 	"github.com/Anti-Raid/api/rpc_messages"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/go-chi/chi/v5"
 	docs "github.com/infinitybotlist/eureka/doclib"
 	"github.com/infinitybotlist/eureka/ratelimit"
 	"github.com/infinitybotlist/eureka/uapi"
@@ -18,8 +17,8 @@ import (
 
 func Docs() *docs.Doc {
 	return &docs.Doc{
-		Summary:     "Settings Execute",
-		Description: "Execute a settings operation (list/create/update/delete).",
+		Summary:     "Settings Execute (Anonymous)",
+		Description: "Execute a settings operation (list/create/update/delete) anonymously (no login required).",
 		Req:         types.SettingsExecute{},
 		Resp:        types.SettingsExecuteResponse{},
 		Params: []docs.Parameter{
@@ -38,11 +37,11 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	limit, err := ratelimit.Ratelimit{
 		Expiry:      5 * time.Minute,
 		MaxRequests: 10,
-		Bucket:      "settings_execute",
+		Bucket:      "settings_execute_anonymous",
 	}.Limit(d.Context, r)
 
 	if err != nil {
-		state.Logger.Error("Error while ratelimiting", zap.Error(err), zap.String("bucket", "settings_execute"))
+		state.Logger.Error("Error while ratelimiting", zap.Error(err), zap.String("bucket", "settings_execute_anonymous"))
 		return uapi.DefaultResponse(http.StatusInternalServerError)
 	}
 
@@ -54,12 +53,6 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 			Headers: limit.Headers(),
 			Status:  http.StatusTooManyRequests,
 		}
-	}
-
-	guildId := chi.URLParam(r, "guild_id")
-
-	if guildId == "" {
-		return uapi.DefaultResponse(http.StatusBadRequest)
 	}
 
 	var body types.SettingsExecute
@@ -88,10 +81,8 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	resp, err := rpc.SettingsOperation(
+	resp, err := rpc.SettingsOperationAnonymous(
 		d.Context,
-		guildId,
-		d.Auth.ID,
 		&rpc_messages.SettingsOperationRequest{
 			Fields:  body.Fields,
 			Op:      body.Operation,
