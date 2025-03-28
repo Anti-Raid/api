@@ -179,7 +179,7 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	dir := fmt.Sprintf("jobs/%s", id)
 
 	// Now get URL
-	url, err := state.ObjectStorage.GetUrl(d.Context, objectstorage.GuildBucket(guildId), dir, filename, 10*time.Minute)
+	url, err := state.ObjectStorage.GetUrl(d.Context, objectstorage.GuildBucket(guildId), dir, filename, 10*time.Minute, false)
 
 	if err != nil {
 		state.Logger.Error("Failed to get url for job", zap.Error(err))

@@ -21,15 +21,7 @@ func Docs() *docs.Doc {
 		Description: "Execute a settings operation (list/create/update/delete) anonymously (no login required).",
 		Req:         types.SettingsExecute{},
 		Resp:        types.SettingsExecuteResponse{},
-		Params: []docs.Parameter{
-			{
-				Name:        "guild_id",
-				Description: "The guild ID to execute the operation in",
-				In:          "path",
-				Required:    true,
-				Schema:      docs.IdSchema,
-			},
-		},
+		Params:      []docs.Parameter{},
 	}
 }
 
