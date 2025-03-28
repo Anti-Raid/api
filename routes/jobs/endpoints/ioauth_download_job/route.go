@@ -12,6 +12,7 @@ import (
 	api "github.com/Anti-Raid/api/auth"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
+	"github.com/Anti-Raid/corelib_go/objectstorage"
 
 	"github.com/go-chi/chi/v5"
 	docs "github.com/infinitybotlist/eureka/doclib"
@@ -178,7 +179,7 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	dir := fmt.Sprintf("jobs/%s", id)
 
 	// Now get URL
-	url, err := state.ObjectStorage.GetUrl(d.Context, dir, filename, 10*time.Minute)
+	url, err := state.ObjectStorage.GetUrl(d.Context, objectstorage.GuildBucket(guildId), dir, filename, 10*time.Minute)
 
 	if err != nil {
 		state.Logger.Error("Failed to get url for job", zap.Error(err))
