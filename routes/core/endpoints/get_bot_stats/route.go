@@ -79,12 +79,14 @@ func getStatus(client http.Client) (*types.GetStatusResponse, error) {
 				case 2:
 					statusStr = "Connected"
 				case 3:
-					statusStr = "MarkedForClosure"
+					statusStr = "Ready"
 				case 4:
-					statusStr = "Closing"
+					statusStr = "Reconnecting"
 				case 5:
-					statusStr = "Closed"
+					statusStr = "Closing"
 				case 6:
+					statusStr = "Closed"
+				case 7:
 					statusStr = "Erroring"
 				}
 
