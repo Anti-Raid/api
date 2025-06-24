@@ -10,9 +10,9 @@ import (
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
 	"github.com/go-chi/chi/v5"
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/ratelimit"
-	"github.com/infinitybotlist/eureka/uapi"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/ratelimit"
+	"github.com/anti-raid/eureka/uapi"
 	"go.uber.org/zap"
 )
 

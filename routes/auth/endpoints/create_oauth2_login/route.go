@@ -12,14 +12,14 @@ import (
 	"github.com/Anti-Raid/api/types"
 	"github.com/redis/rueidis"
 
-	"github.com/infinitybotlist/eureka/jsonimpl"
-	"github.com/infinitybotlist/eureka/ratelimit"
+	"github.com/anti-raid/eureka/jsonimpl"
+	"github.com/anti-raid/eureka/ratelimit"
 
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/uapi"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/uapi"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/infinitybotlist/eureka/crypto"
+	"github.com/anti-raid/eureka/crypto"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slices"
 )

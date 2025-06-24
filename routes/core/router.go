@@ -6,7 +6,7 @@ import (
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_stats"
 	"github.com/Anti-Raid/api/routes/core/endpoints/settings_execute_anonymous"
 	"github.com/go-chi/chi/v5"
-	"github.com/infinitybotlist/eureka/uapi"
+	"github.com/anti-raid/eureka/uapi"
 )
 
 const tagName = "Core"

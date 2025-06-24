@@ -3,7 +3,7 @@ package types
 import (
 	"time"
 
-	"github.com/infinitybotlist/eureka/dovewing/dovetypes"
+	"github.com/anti-raid/eureka/dovewing/dovetypes"
 )
 
 // Represents a user on Antiraid

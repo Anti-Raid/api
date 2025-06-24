@@ -14,10 +14,10 @@ import (
 	"github.com/Anti-Raid/api/types"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/infinitybotlist/eureka/crypto"
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/ratelimit"
-	"github.com/infinitybotlist/eureka/uapi"
+	"github.com/anti-raid/eureka/crypto"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/ratelimit"
+	"github.com/anti-raid/eureka/uapi"
 	"go.uber.org/zap"
 )
 

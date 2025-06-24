@@ -7,8 +7,8 @@ import (
 	api "github.com/Anti-Raid/api/auth"
 	"github.com/Anti-Raid/api/types"
 
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/uapi"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/uapi"
 
 	"github.com/go-chi/chi/v5"
 )

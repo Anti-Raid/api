@@ -11,11 +11,11 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/go-chi/chi/v5"
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/dovewing"
-	"github.com/infinitybotlist/eureka/dovewing/dovetypes"
-	"github.com/infinitybotlist/eureka/ratelimit"
-	"github.com/infinitybotlist/eureka/uapi"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/dovewing"
+	"github.com/anti-raid/eureka/dovewing/dovetypes"
+	"github.com/anti-raid/eureka/ratelimit"
+	"github.com/anti-raid/eureka/uapi"
 )
 
 var StaffTeamCache = &StaffTeamCacher{}

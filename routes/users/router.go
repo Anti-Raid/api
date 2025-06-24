@@ -9,7 +9,7 @@ import (
 	"github.com/Anti-Raid/api/routes/users/endpoints/get_user_guilds"
 	"github.com/Anti-Raid/corelib_go/splashcore"
 	"github.com/go-chi/chi/v5"
-	"github.com/infinitybotlist/eureka/uapi"
+	"github.com/anti-raid/eureka/uapi"
 )
 
 const tagName = "Users"

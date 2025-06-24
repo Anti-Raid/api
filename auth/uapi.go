@@ -16,7 +16,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 
-	"github.com/infinitybotlist/eureka/uapi"
+	"github.com/anti-raid/eureka/uapi"
 	"github.com/jackc/pgx/v5/pgtype"
 	"golang.org/x/exp/slices"
 )

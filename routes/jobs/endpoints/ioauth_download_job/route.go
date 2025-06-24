@@ -15,8 +15,8 @@ import (
 	"github.com/Anti-Raid/corelib_go/objectstorage"
 
 	"github.com/go-chi/chi/v5"
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/uapi"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/uapi"
 	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 )

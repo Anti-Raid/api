@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/infinitybotlist/eureka/dovewing"
-	"github.com/infinitybotlist/eureka/dovewing/dovetypes"
+	"github.com/anti-raid/eureka/dovewing"
+	"github.com/anti-raid/eureka/dovewing/dovetypes"
 )
 
 var supportedBotFlags = map[string]int64{

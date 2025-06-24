@@ -4,7 +4,7 @@ import (
 	"github.com/Anti-Raid/api/routes/jobs/endpoints/ioauth_download_job"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/infinitybotlist/eureka/uapi"
+	"github.com/anti-raid/eureka/uapi"
 )
 
 const tagName = "Jobs"

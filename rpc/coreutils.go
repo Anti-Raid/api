@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/Anti-Raid/api/state"
-	"github.com/infinitybotlist/eureka/jsonimpl"
+	"github.com/anti-raid/eureka/jsonimpl"
 )
 
 func CalcBotPort() int {

@@ -25,10 +25,10 @@ import (
 	"github.com/cloudflare/tableflip"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	docs "github.com/infinitybotlist/eureka/doclib"
-	"github.com/infinitybotlist/eureka/jsonimpl"
-	"github.com/infinitybotlist/eureka/uapi"
-	"github.com/infinitybotlist/eureka/zapchi"
+	docs "github.com/anti-raid/eureka/doclib"
+	"github.com/anti-raid/eureka/jsonimpl"
+	"github.com/anti-raid/eureka/uapi"
+	"github.com/anti-raid/eureka/zapchi"
 	"go.uber.org/zap"
 )
 

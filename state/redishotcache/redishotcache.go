@@ -6,7 +6,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/infinitybotlist/eureka/hotcache"
+	"github.com/anti-raid/eureka/hotcache"
 	"github.com/redis/rueidis"
 )
 

@@ -1,7 +1,7 @@
 package types
 
 import (
-	"github.com/infinitybotlist/eureka/dovewing/dovetypes"
+	"github.com/anti-raid/eureka/dovewing/dovetypes"
 )
 
 type DashboardGuild struct {
