@@ -93,6 +93,15 @@ pub struct BotState {
 }
 */
 
+type BSI struct {
+	Commands           []types.CanonicalCommand `json:"commands"`
+	CommandPermissions map[string][]string      `json:"command_permissions"`
+}
+
+type TSI struct {
+	Settings []types.CanonicalConfigOption `json:"settings"`
+}
+
 type BotState struct {
 	Commands           []types.CanonicalCommand      `json:"commands"`
 	Settings           []types.CanonicalConfigOption `json:"settings"`

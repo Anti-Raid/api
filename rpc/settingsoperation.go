@@ -19,7 +19,7 @@ func SettingsOperation(
 		ctx,
 		state.IpcClient,
 		"POST",
-		fmt.Sprintf("%s/settings-operation/%s/%s", CalcBotAddr(), guildID, userID),
+		fmt.Sprintf("%s/settings-operation/%s/%s", CalcTWAddr(), guildID, userID),
 		settingsOpReq,
 		true,
 	)

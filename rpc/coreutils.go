@@ -20,12 +20,20 @@ func CalcJobserverPort() int {
 	return state.Config.BasePorts.Jobserver
 }
 
+func CalcTWPort() int {
+	return state.Config.BasePorts.TemplateWorkerPort
+}
+
 func CalcBotAddr() string {
 	return state.Config.BasePorts.BotBaseAddr + ":" + strconv.Itoa(CalcBotPort())
 }
 
 func CalcJobserverAddr() string {
 	return state.Config.BasePorts.JobserverBaseAddr + ":" + strconv.Itoa(CalcJobserverPort())
+}
+
+func CalcTWAddr() string {
+	return "http://" + state.Config.BasePorts.TemplateWorkerAddr + ":" + strconv.Itoa(CalcTWPort())
 }
 
 // Calls a route using the RPC protocol

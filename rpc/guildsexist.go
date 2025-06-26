@@ -18,7 +18,7 @@ func GuildsExist(
 		ctx,
 		state.IpcClient,
 		"GET",
-		fmt.Sprintf("%s/guilds-exist", CalcBotAddr()),
+		fmt.Sprintf("%s/guilds-exist", CalcTWAddr()),
 		guildIds,
 		true,
 	)

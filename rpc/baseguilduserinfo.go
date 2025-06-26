@@ -18,7 +18,7 @@ func BaseGuildUserInfo(
 		ctx,
 		state.IpcClient,
 		"GET",
-		fmt.Sprintf("%s/base-guild-user-info/%s/%s", CalcBotAddr(), guildID, userID),
+		fmt.Sprintf("%s/base-guild-user-info/%s/%s", CalcTWAddr(), guildID, userID),
 		nil,
 		true,
 	)

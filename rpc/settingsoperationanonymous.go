@@ -17,7 +17,7 @@ func SettingsOperationAnonymous(
 		ctx,
 		state.IpcClient,
 		"POST",
-		fmt.Sprintf("%s/settings-operation-anonymous", CalcBotAddr()),
+		fmt.Sprintf("%s/settings-operation-anonymous", CalcTWAddr()),
 		settingsOpReq,
 		true,
 	)
