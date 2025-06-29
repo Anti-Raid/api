@@ -2,6 +2,7 @@ package rpc_messages
 
 import (
 	"github.com/Anti-Raid/api/types"
+	"github.com/bwmarrin/discordgo"
 	orderedmap "github.com/wk8/go-ordered-map/v2"
 )
 
@@ -98,12 +99,7 @@ type BSI struct {
 	CommandPermissions map[string][]string      `json:"command_permissions"`
 }
 
-type TSI struct {
-	Settings []types.CanonicalConfigOption `json:"settings"`
-}
-
-type BotState struct {
-	Commands           []types.CanonicalCommand      `json:"commands"`
-	Settings           []types.CanonicalConfigOption `json:"settings"`
-	CommandPermissions map[string][]string           `json:"command_permissions"`
+type TWState struct {
+	Commands []discordgo.ApplicationCommand `json:"commands"`
+	Settings []types.CanonicalConfigOption  `json:"settings"`
 }

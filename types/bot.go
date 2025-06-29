@@ -1,13 +1,14 @@
 package types
 
 import (
+	"github.com/bwmarrin/discordgo"
 	orderedmap "github.com/wk8/go-ordered-map/v2"
 )
 
 type BotState struct {
-	Commands           []CanonicalCommand      `json:"commands"`
-	Settings           []CanonicalConfigOption `json:"settings"`
-	CommandPermissions map[string][]string     `json:"command_permissions"`
+	Commands           []discordgo.ApplicationCommand `json:"commands"`
+	Settings           []CanonicalConfigOption        `json:"settings"`
+	CommandPermissions map[string][]string            `json:"command_permissions"`
 }
 
 type CanonicalCommandArgument struct {

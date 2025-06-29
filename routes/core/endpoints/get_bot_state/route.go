@@ -39,9 +39,8 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	}
 
 	BotStateCache = &types.BotState{
-		Commands:           bs.Commands,
-		Settings:           bs.Settings,
-		CommandPermissions: bs.CommandPermissions,
+		Commands: bs.Commands,
+		Settings: bs.Settings,
 	}
 
 	return uapi.HttpResponse{

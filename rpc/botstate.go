@@ -8,22 +8,8 @@ import (
 	"github.com/Anti-Raid/api/state"
 )
 
-// Temporarily does 2 RPC calls until bot is removed in favor of template worker
-func BotState(ctx context.Context) (*rpc_messages.BotState, error) {
-	bs, err := RpcQuery[rpc_messages.BSI](
-		ctx,
-		state.IpcClient,
-		"GET",
-		fmt.Sprintf("%s/state", CalcBotAddr()),
-		nil,
-		true,
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	ts, err := RpcQuery[rpc_messages.TSI](
+func BotState(ctx context.Context) (*rpc_messages.TWState, error) {
+	return RpcQuery[rpc_messages.TWState](
 		ctx,
 		state.IpcClient,
 		"GET",
@@ -31,14 +17,4 @@ func BotState(ctx context.Context) (*rpc_messages.BotState, error) {
 		nil,
 		true,
 	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &rpc_messages.BotState{
-		Commands:           bs.Commands,
-		CommandPermissions: bs.CommandPermissions,
-		Settings:           ts.Settings,
-	}, nil
 }
