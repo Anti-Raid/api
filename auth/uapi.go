@@ -4,12 +4,10 @@ package api
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/Anti-Raid/api/constants"
-	"github.com/Anti-Raid/api/rpc"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
 	"github.com/Anti-Raid/corelib_go/splashcore"
@@ -27,8 +25,7 @@ type PermissionCheck struct {
 }
 
 const (
-	PERMISSION_CHECK_KEY = "permissionCheck"
-	SESSION_EXPIRY       = 60 * 30 // 30 minutes
+	SESSION_EXPIRY = 60 * 30 // 30 minutes
 )
 
 type DefaultResponder struct{}
@@ -38,49 +35,6 @@ func (d DefaultResponder) New(err string, ctx map[string]string) any {
 		Message: err,
 		Context: ctx,
 	}
-}
-
-func HandlePermissionCheck(
-	userId,
-	guildId,
-	perm string,
-) (hresp uapi.HttpResponse, ok bool) {
-	if guildId == "" {
-		state.Logger.Error("Guild ID is empty")
-		return uapi.HttpResponse{
-			Status: http.StatusInternalServerError,
-			Json:   types.ApiError{Message: "Guild ID in permissionCheck is empty"},
-		}, false
-	}
-
-	permRes, err := rpc.CheckUserHasPermission(
-		state.Context,
-		guildId,
-		userId,
-		perm,
-	)
-
-	if err != nil {
-		state.Logger.Error("Error checking command permission", zap.Error(err))
-		return uapi.HttpResponse{
-			Status: http.StatusInternalServerError,
-			Json:   types.ApiError{Message: "Error checking command permission: " + err.Error()},
-			Headers: map[string]string{
-				"Retry-After": "10",
-			},
-		}, false
-	}
-
-	if permRes.Result != nil {
-		return uapi.HttpResponse{
-			Status: http.StatusForbidden,
-			Json: types.ApiError{
-				Message: *permRes.Result,
-			},
-		}, false
-	}
-
-	return uapi.HttpResponse{}, true
 }
 
 // Authorizes a request
@@ -198,51 +152,6 @@ func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpRespons
 				continue
 			}
 
-			pc, ok := r.ExtData[PERMISSION_CHECK_KEY]
-
-			if !ok {
-				return uapi.AuthData{}, uapi.HttpResponse{
-					Status: http.StatusInternalServerError,
-					Json:   types.ApiError{Message: "Internal server error: permissionCheck not found in route.ExtData"},
-				}, false
-			}
-
-			permCheck, ok := pc.(PermissionCheck)
-
-			if ok {
-				guildId := permCheck.GuildID(r, req)
-
-				if guildId != "" {
-					// Ensure guild is in database
-					_, err := state.Pool.Exec(state.Context, "INSERT INTO guilds (id) VALUES ($1) ON CONFLICT DO NOTHING", guildId)
-
-					if err != nil {
-						state.Logger.Error("Failed to insert guild into database", zap.Error(err))
-						return uapi.AuthData{}, uapi.HttpResponse{
-							Status: http.StatusInternalServerError,
-							Json:   types.ApiError{Message: "Internal server error: Failed to insert guild into database"},
-						}, false
-					}
-
-					// First check for web use permissions
-					hresp, ok := HandlePermissionCheck(id.String, guildId, "web.use")
-
-					if !ok {
-						return uapi.AuthData{}, hresp, false
-					}
-
-					cmd := permCheck.Permission(r, req)
-
-					if cmd != "" {
-						hresp, ok = HandlePermissionCheck(id.String, guildId, cmd)
-
-						if !ok {
-							return uapi.AuthData{}, hresp, false
-						}
-					}
-				}
-			}
-
 			authData = uapi.AuthData{
 				TargetType: splashcore.TargetTypeUser,
 				ID:         id.String,
@@ -299,15 +208,5 @@ func Setup() {
 			BodyRequired:        constants.BodyRequired,
 		},
 		DefaultResponder: DefaultResponder{},
-		BaseSanityCheck: func(r uapi.Route) error {
-			if len(r.Auth) > 0 {
-				// Check for permissionCheck
-				if _, ok := r.ExtData[PERMISSION_CHECK_KEY]; !ok {
-					return fmt.Errorf("%s not found in route.ExtData [%s]", PERMISSION_CHECK_KEY, r.OpId)
-				}
-			}
-
-			return nil
-		},
 	})
 }

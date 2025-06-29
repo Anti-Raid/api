@@ -1,12 +1,11 @@
 package guilds
 
 import (
-	api "github.com/Anti-Raid/api/auth"
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/get_staff_team"
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/settings_execute"
 	"github.com/Anti-Raid/corelib_go/splashcore"
-	"github.com/go-chi/chi/v5"
 	"github.com/anti-raid/eureka/uapi"
+	"github.com/go-chi/chi/v5"
 )
 
 const tagName = "Guilds"
@@ -36,9 +35,6 @@ func (b Router) Routes(r *chi.Mux) {
 			{
 				Type: splashcore.TargetTypeUser,
 			},
-		},
-		ExtData: map[string]any{
-			api.PERMISSION_CHECK_KEY: nil, // Authz is performed in the handler itself
 		},
 	}.Route(r)
 }

@@ -1,7 +1,6 @@
 package auth
 
 import (
-	api "github.com/Anti-Raid/api/auth"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/create_ioauth_login"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/create_oauth2_login"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/create_user_session"
@@ -10,8 +9,8 @@ import (
 	"github.com/Anti-Raid/api/routes/auth/endpoints/test_auth"
 	"github.com/Anti-Raid/corelib_go/splashcore"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/anti-raid/eureka/uapi"
+	"github.com/go-chi/chi/v5"
 )
 
 const tagName = "Auth"
@@ -59,9 +58,6 @@ func (m Router) Routes(r *chi.Mux) {
 				AllowedScope: "ban_exempt",
 			},
 		},
-		ExtData: map[string]any{
-			api.PERMISSION_CHECK_KEY: nil,
-		},
 	}.Route(r)
 
 	uapi.Route{
@@ -74,9 +70,6 @@ func (m Router) Routes(r *chi.Mux) {
 			{
 				Type: splashcore.TargetTypeUser,
 			},
-		},
-		ExtData: map[string]any{
-			api.PERMISSION_CHECK_KEY: nil,
 		},
 	}.Route(r)
 
@@ -91,9 +84,6 @@ func (m Router) Routes(r *chi.Mux) {
 				Type:         splashcore.TargetTypeUser,
 				AllowedScope: "ban_exempt",
 			},
-		},
-		ExtData: map[string]any{
-			api.PERMISSION_CHECK_KEY: nil,
 		},
 	}.Route(r)
 }

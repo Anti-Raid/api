@@ -58,9 +58,6 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	// Check auth
 	authData, hr, ok := api.Authorize(uapi.Route{
 		Auth: authType,
-		ExtData: map[string]any{
-			api.PERMISSION_CHECK_KEY: nil,
-		},
 	}, reqCtxd)
 
 	if !ok {
