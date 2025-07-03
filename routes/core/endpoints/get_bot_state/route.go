@@ -13,8 +13,8 @@ import (
 
 func Docs() *docs.Doc {
 	return &docs.Doc{
-		Summary:     "Get Modules",
-		Description: "This endpoint returns the modules on AntiRaid.",
+		Summary:     "Get Bot State",
+		Description: "This endpoint returns all commands on AntiRaid.",
 		Resp:        types.BotState{},
 		Params:      []docs.Parameter{},
 	}
@@ -40,7 +40,6 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 
 	BotStateCache = &types.BotState{
 		Commands: bs.Commands,
-		Settings: bs.Settings,
 	}
 
 	return uapi.HttpResponse{

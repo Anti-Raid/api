@@ -2,8 +2,6 @@
 package api
 
 import (
-	"encoding/base64"
-	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -39,59 +37,6 @@ func (d DefaultResponder) New(err string, ctx map[string]string) any {
 
 // Authorizes a request
 func Authorize(r uapi.Route, req *http.Request) (uapi.AuthData, uapi.HttpResponse, bool) {
-	if len(r.ExtData) > 0 {
-		// Immediate Oauth system (ioauth)
-		if a, ok := r.ExtData["ioauth"]; ok {
-			scopes, ok := a.([]string)
-
-			if !ok {
-				return uapi.AuthData{}, uapi.HttpResponse{
-					Status: http.StatusInternalServerError,
-					Json:   types.ApiError{Message: "Internal server error: ioauth is not a string of scopes"},
-				}, false
-			}
-
-			if len(scopes) == 0 {
-				return uapi.AuthData{}, uapi.HttpResponse{
-					Status: http.StatusInternalServerError,
-					Json:   types.ApiError{Message: "Internal server error: No scopes provided for ioauth"},
-				}, false
-			}
-
-			if !slices.Contains(scopes, "identify") {
-				return uapi.AuthData{}, uapi.HttpResponse{
-					Status: http.StatusInternalServerError,
-					Json:   types.ApiError{Message: "Invalid scopes. Expected identify scope to be in " + strings.Join(scopes, ", ")},
-				}, false
-			}
-
-			// Check if the user is authorized
-			ioauthToken := req.URL.Query().Get("ioauth")
-
-			if ioauthToken == "" {
-				ioAuth := types.IOAuthRedirect{
-					Dest:   req.URL.String(),
-					Scopes: scopes,
-				}
-
-				bytes, err := json.Marshal(ioAuth)
-
-				if err != nil {
-					return uapi.AuthData{}, uapi.HttpResponse{
-						Status: http.StatusInternalServerError,
-						Json:   types.ApiError{Message: "Internal server error: Failed to marshal ioauth"},
-					}, false
-				}
-
-				// Redirect to discord oauth
-				return uapi.AuthData{}, uapi.HttpResponse{
-					Status:   http.StatusTemporaryRedirect,
-					Redirect: "/ioauth/login?rd=" + base64.RawURLEncoding.EncodeToString(bytes),
-				}, false
-			}
-		}
-	}
-
 	authHeader := req.Header.Get("Authorization")
 
 	if len(r.Auth) > 0 && authHeader == "" && !r.AuthOptional {

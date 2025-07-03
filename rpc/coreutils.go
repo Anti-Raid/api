@@ -12,20 +12,12 @@ import (
 	"github.com/anti-raid/eureka/jsonimpl"
 )
 
-func CalcBotPort() int {
-	return state.Config.BasePorts.Bot
-}
-
 func CalcJobserverPort() int {
 	return state.Config.BasePorts.Jobserver
 }
 
 func CalcTWPort() int {
 	return state.Config.BasePorts.TemplateWorkerPort
-}
-
-func CalcBotAddr() string {
-	return state.Config.BasePorts.BotBaseAddr + ":" + strconv.Itoa(CalcBotPort())
 }
 
 func CalcJobserverAddr() string {

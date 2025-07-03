@@ -1,7 +1,7 @@
 package guilds
 
 import (
-	"github.com/Anti-Raid/api/routes/guilds/endpoints/get_staff_team"
+	"github.com/Anti-Raid/api/routes/guilds/endpoints/get_settings"
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/settings_execute"
 	"github.com/Anti-Raid/corelib_go/splashcore"
 	"github.com/anti-raid/eureka/uapi"
@@ -18,11 +18,16 @@ func (b Router) Tag() (string, string) {
 
 func (b Router) Routes(r *chi.Mux) {
 	uapi.Route{
-		Pattern: "/guilds/{guild_id}/staff-team",
-		OpId:    "get_staff_team",
+		Pattern: "/guilds/{guild_id}/settings",
+		OpId:    "get_settings",
 		Method:  uapi.GET,
-		Docs:    get_staff_team.Docs,
-		Handler: get_staff_team.Route,
+		Docs:    get_settings.Docs,
+		Handler: get_settings.Route,
+		Auth: []uapi.AuthType{
+			{
+				Type: splashcore.TargetTypeUser,
+			},
+		},
 	}.Route(r)
 
 	uapi.Route{

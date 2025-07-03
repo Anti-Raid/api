@@ -18,17 +18,16 @@ import (
 	"github.com/Anti-Raid/api/routes/auth"
 	"github.com/Anti-Raid/api/routes/core"
 	"github.com/Anti-Raid/api/routes/guilds"
-	"github.com/Anti-Raid/api/routes/jobs"
 	"github.com/Anti-Raid/api/routes/users"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/cloudflare/tableflip"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	docs "github.com/anti-raid/eureka/doclib"
 	"github.com/anti-raid/eureka/jsonimpl"
 	"github.com/anti-raid/eureka/uapi"
 	"github.com/anti-raid/eureka/zapchi"
+	"github.com/cloudflare/tableflip"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"go.uber.org/zap"
 )
 
@@ -124,7 +123,6 @@ func CreateWebserver() *chi.Mux {
 		core.Router{},
 		guilds.Router{},
 		users.Router{},
-		jobs.Router{},
 	}
 
 	for _, router := range routers {

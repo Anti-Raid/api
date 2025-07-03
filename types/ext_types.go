@@ -7,26 +7,6 @@ type Permissions string
 // Discordgo types are sometimes not of high quality, so we need to extend them
 // with our own types [taken from serenity etc]. This is the place to do that.
 
-/*
-	A role tags object from serenity because discordgo doesnt actually support this
-
-/// The Id of the bot the [`Role`] belongs to.
-
-	pub bot_id: Option<UserId>,
-	/// The Id of the integration the [`Role`] belongs to.
-	pub integration_id: Option<IntegrationId>,
-	/// Whether this is the guild's premium subscriber role.
-	#[serde(default, skip_serializing_if = "is_false", with = "bool_as_option_unit")]
-	pub premium_subscriber: bool,
-	/// The id of this role's subscription sku and listing.
-	pub subscription_listing_id: Option<SkuId>,
-	/// Whether this role is available for purchase.
-	#[serde(default, skip_serializing_if = "is_false", with = "bool_as_option_unit")]
-	pub available_for_purchase: bool,
-	/// Whether this role is a guild's linked role.
-	#[serde(default, skip_serializing_if = "is_false", with = "bool_as_option_unit")]
-	pub guild_connections: bool,
-*/
 type SerenityRoleTags struct {
 	BotID                 *string `json:"bot_id" description:"The ID of the bot the role belongs to"`
 	IntegrationID         *string `json:"integration_id" description:"The ID of the integration the role belongs to"`
@@ -36,19 +16,6 @@ type SerenityRoleTags struct {
 	GuildConnections      bool    `json:"guild_connections" description:"Whether this role is a guild's linked role"`
 }
 
-/*
-		A role object from serenity because discordgo's Role object is garbage
-
-	    pub id: RoleId,
-	    pub guild_id: GuildId,
-	    pub colour: Colour,
-	    pub name: FixedString<u32>,
-	    pub permissions: Permissions,
-	    pub position: i16,
-	    pub tags: RoleTags,
-	    pub icon: Option<ImageHash>,
-	    pub unicode_emoji: Option<FixedString<u32>>,
-*/
 type SerenityRole struct {
 	ID           string            `json:"id" description:"The ID of the role"`
 	GuildID      string            `json:"guild_id" description:"The ID of the guild"`

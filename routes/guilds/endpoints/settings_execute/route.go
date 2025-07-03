@@ -2,17 +2,16 @@ package settings_execute
 
 import (
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/Anti-Raid/api/rpc"
 	"github.com/Anti-Raid/api/rpc_messages"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/go-chi/chi/v5"
 	docs "github.com/anti-raid/eureka/doclib"
 	"github.com/anti-raid/eureka/ratelimit"
 	"github.com/anti-raid/eureka/uapi"
+	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
 
@@ -21,7 +20,7 @@ func Docs() *docs.Doc {
 		Summary:     "Settings Execute",
 		Description: "Execute a settings operation (list/create/update/delete).",
 		Req:         types.SettingsExecute{},
-		Resp:        types.SettingsExecuteResponse{},
+		Resp:        map[string]types.DispatchResult{},
 		Params: []docs.Parameter{
 			{
 				Name:        "guild_id",
@@ -79,16 +78,7 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	if !body.Operation.Parse() {
-		return uapi.HttpResponse{
-			Status: http.StatusBadRequest,
-			Json: types.ApiError{
-				Message: "Invalid `operation` provided. `operation` must be one of: " + strings.Join(body.Operation.List(), ", "),
-			},
-		}
-	}
-
-	resp, err := rpc.SettingsOperation(
+	resp, err := rpc.ExecuteSettingForGuildUser(
 		d.Context,
 		guildId,
 		d.Auth.ID,
@@ -109,27 +99,8 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	if resp.Ok != nil {
-		return uapi.HttpResponse{
-			Json: types.SettingsExecuteResponse{
-				Fields: resp.Ok.Fields,
-			},
-		}
-	}
-
-	if resp.Err != nil {
-		return uapi.HttpResponse{
-			Status: http.StatusBadRequest,
-			Json: types.ApiError{
-				Message: resp.Err.Error,
-			},
-		}
-	}
-
 	return uapi.HttpResponse{
-		Status: http.StatusNotImplemented,
-		Json: types.ApiError{
-			Message: "Unknown response from bot [Res.Ok == nil, but could not find error]",
-		},
+		Status: http.StatusOK,
+		Json:   resp,
 	}
 }

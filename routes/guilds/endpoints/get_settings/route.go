@@ -1,27 +1,34 @@
-package settings_execute_anonymous
+package get_settings
 
 import (
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/Anti-Raid/api/rpc"
-	"github.com/Anti-Raid/api/rpc_messages"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
 	docs "github.com/anti-raid/eureka/doclib"
 	"github.com/anti-raid/eureka/ratelimit"
 	"github.com/anti-raid/eureka/uapi"
+	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
 
 func Docs() *docs.Doc {
 	return &docs.Doc{
-		Summary:     "Settings Execute (Anonymous)",
-		Description: "Execute a settings operation (list/create/update/delete) anonymously (no login required).",
+		Summary:     "Get Settings",
+		Description: "Get Settings for a Guild User",
 		Req:         types.SettingsExecute{},
-		Resp:        types.SettingsExecuteResponse{},
-		Params:      []docs.Parameter{},
+		Resp:        map[string]any{},
+		Params: []docs.Parameter{
+			{
+				Name:        "guild_id",
+				Description: "The guild ID to execute the operation in",
+				In:          "path",
+				Required:    true,
+				Schema:      docs.IdSchema,
+			},
+		},
 	}
 }
 
@@ -29,11 +36,11 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 	limit, err := ratelimit.Ratelimit{
 		Expiry:      5 * time.Minute,
 		MaxRequests: 10,
-		Bucket:      "settings_execute_anonymous",
+		Bucket:      "settings_execute",
 	}.Limit(d.Context, r)
 
 	if err != nil {
-		state.Logger.Error("Error while ratelimiting", zap.Error(err), zap.String("bucket", "settings_execute_anonymous"))
+		state.Logger.Error("Error while ratelimiting", zap.Error(err), zap.String("bucket", "settings_execute"))
 		return uapi.DefaultResponse(http.StatusInternalServerError)
 	}
 
@@ -45,6 +52,12 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 			Headers: limit.Headers(),
 			Status:  http.StatusTooManyRequests,
 		}
+	}
+
+	guildId := chi.URLParam(r, "guild_id")
+
+	if guildId == "" {
+		return uapi.DefaultResponse(http.StatusBadRequest)
 	}
 
 	var body types.SettingsExecute
@@ -64,22 +77,10 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	if !body.Operation.Parse() {
-		return uapi.HttpResponse{
-			Status: http.StatusBadRequest,
-			Json: types.ApiError{
-				Message: "Invalid `operation` provided. `operation` must be one of: " + strings.Join(body.Operation.List(), ", "),
-			},
-		}
-	}
-
-	resp, err := rpc.SettingsOperationAnonymous(
+	resp, err := rpc.GetSettingsForGuildUser(
 		d.Context,
-		&rpc_messages.SettingsOperationRequest{
-			Fields:  body.Fields,
-			Op:      body.Operation,
-			Setting: body.Setting,
-		},
+		guildId,
+		d.Auth.ID,
 	)
 
 	if err != nil {
@@ -92,27 +93,8 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	if resp.Ok != nil {
-		return uapi.HttpResponse{
-			Json: types.SettingsExecuteResponse{
-				Fields: resp.Ok.Fields,
-			},
-		}
-	}
-
-	if resp.Err != nil {
-		return uapi.HttpResponse{
-			Status: http.StatusBadRequest,
-			Json: types.ApiError{
-				Message: resp.Err.Error,
-			},
-		}
-	}
-
 	return uapi.HttpResponse{
-		Status: http.StatusNotImplemented,
-		Json: types.ApiError{
-			Message: "Unknown response from bot [Res.Ok == nil, but could not find error]",
-		},
+		Status: http.StatusOK,
+		Json:   resp,
 	}
 }

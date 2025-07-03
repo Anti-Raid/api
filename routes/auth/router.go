@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"github.com/Anti-Raid/api/routes/auth/endpoints/create_ioauth_login"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/create_oauth2_login"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/create_user_session"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/get_user_sessions"
@@ -22,14 +21,6 @@ func (r Router) Tag() (string, string) {
 }
 
 func (m Router) Routes(r *chi.Mux) {
-	uapi.Route{
-		Pattern: "/ioauth/login",
-		OpId:    "create_ioauth_login",
-		Method:  uapi.GET,
-		Docs:    create_ioauth_login.Docs,
-		Handler: create_ioauth_login.Route,
-	}.Route(r)
-
 	uapi.Route{
 		Pattern: "/auth/test",
 		OpId:    "test_auth",

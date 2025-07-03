@@ -4,9 +4,8 @@ import (
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_api_config"
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_state"
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_stats"
-	"github.com/Anti-Raid/api/routes/core/endpoints/settings_execute_anonymous"
-	"github.com/go-chi/chi/v5"
 	"github.com/anti-raid/eureka/uapi"
+	"github.com/go-chi/chi/v5"
 )
 
 const tagName = "Core"
@@ -40,13 +39,5 @@ func (b Router) Routes(r *chi.Mux) {
 		Method:  uapi.GET,
 		Docs:    get_bot_stats.Docs,
 		Handler: get_bot_stats.Route,
-	}.Route(r)
-
-	uapi.Route{
-		Pattern: "/settings",
-		OpId:    "settings_execute_anonymous",
-		Method:  uapi.POST,
-		Docs:    settings_execute_anonymous.Docs,
-		Handler: settings_execute_anonymous.Route,
 	}.Route(r)
 }
