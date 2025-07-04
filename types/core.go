@@ -67,3 +67,37 @@ type DispatchResult struct {
 	Type string `json:"type" description:"The type of the dispatch result [Ok or Err]"`
 	Data any    `json:"data" description:"The data of the dispatch result"`
 }
+
+// Sent on List Template Shop Templates
+type TemplateShopPartialTemplate struct {
+	ID            string    `db:"id" json:"id" description:"The ID of the template"`
+	Name          string    `db:"name" json:"name" description:"The name of the template"`
+	Version       string    `db:"version" json:"version" description:"The version of the template"`
+	Description   string    `db:"description" json:"description" description:"The description of the template"`
+	OwnerGuild    string    `db:"owner_guild" json:"owner_guild" description:"The ID of the guild that owns the template"`
+	CreatedAt     time.Time `db:"created_at" json:"created_at" description:"The time the template was created"`
+	LastUpdatedAt time.Time `db:"last_updated_at" json:"last_updated_at" description:"The time the template was last updated"`
+	FriendlyName  string    `db:"friendly_name" json:"friendly_name" description:"The friendly name of the template"`
+	Events        []string  `db:"events" json:"events" description:"The events the template listens to"`
+	Language      string    `db:"language" json:"language" description:"The language of the template"`
+	AllowedCaps   []string  `db:"allowed_caps" json:"allowed_caps" description:"The allowed capabilities of the template"`
+	Tags          []string  `db:"tags" json:"tags" description:"The tags of the template"`
+}
+
+// TemplateShopTemplate is the full template data sent on Get Template Shop Template
+// It includes the content of the template, which is not included in the partial template
+type TemplateShopTemplate struct {
+	ID            string            `db:"id" json:"id" description:"The ID of the template"`
+	Name          string            `db:"name" json:"name" description:"The name of the template"`
+	Version       string            `db:"version" json:"version" description:"The version of the template"`
+	Description   string            `db:"description" json:"description" description:"The description of the template"`
+	OwnerGuild    string            `db:"owner_guild" json:"owner_guild" description:"The ID of the guild that owns the template"`
+	CreatedAt     time.Time         `db:"created_at" json:"created_at" description:"The time the template was created"`
+	LastUpdatedAt time.Time         `db:"last_updated_at" json:"last_updated_at" description:"The time the template was last updated"`
+	FriendlyName  string            `db:"friendly_name" json:"friendly_name" description:"The friendly name of the template"`
+	Events        []string          `db:"events" json:"events" description:"The events the template listens to"`
+	Language      string            `db:"language" json:"language" description:"The language of the template"`
+	AllowedCaps   []string          `db:"allowed_caps" json:"allowed_caps" description:"The allowed capabilities of the template"`
+	Content       map[string]string `db:"content" json:"content" description:"The content of the template"`
+	Tags          []string          `db:"tags" json:"tags" description:"The tags of the template"`
+}

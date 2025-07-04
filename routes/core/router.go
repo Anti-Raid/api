@@ -4,6 +4,8 @@ import (
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_api_config"
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_state"
 	"github.com/Anti-Raid/api/routes/core/endpoints/get_bot_stats"
+	"github.com/Anti-Raid/api/routes/core/endpoints/get_template_shop"
+	"github.com/Anti-Raid/api/routes/core/endpoints/list_template_shop"
 	"github.com/anti-raid/eureka/uapi"
 	"github.com/go-chi/chi/v5"
 )
@@ -39,5 +41,21 @@ func (b Router) Routes(r *chi.Mux) {
 		Method:  uapi.GET,
 		Docs:    get_bot_stats.Docs,
 		Handler: get_bot_stats.Route,
+	}.Route(r)
+
+	uapi.Route{
+		Pattern: "/template-shop",
+		OpId:    "list_template_shop",
+		Method:  uapi.GET,
+		Docs:    list_template_shop.Docs,
+		Handler: list_template_shop.Route,
+	}.Route(r)
+
+	uapi.Route{
+		Pattern: "/template-shop/{name}",
+		OpId:    "get_template_shop",
+		Method:  uapi.GET,
+		Docs:    get_template_shop.Docs,
+		Handler: get_template_shop.Route,
 	}.Route(r)
 }
