@@ -60,23 +60,6 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		return uapi.DefaultResponse(http.StatusBadRequest)
 	}
 
-	var body types.SettingsExecute
-
-	hresp, ok := uapi.MarshalReqWithHeaders(r, &body, limit.Headers())
-
-	if !ok {
-		return hresp
-	}
-
-	if body.Setting == "" {
-		return uapi.HttpResponse{
-			Status: http.StatusBadRequest,
-			Json: types.ApiError{
-				Message: "`setting` must be provided",
-			},
-		}
-	}
-
 	resp, err := rpc.GetSettingsForGuildUser(
 		d.Context,
 		guildId,
