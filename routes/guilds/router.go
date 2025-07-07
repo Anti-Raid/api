@@ -3,7 +3,6 @@ package guilds
 import (
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/get_settings"
 	"github.com/Anti-Raid/api/routes/guilds/endpoints/settings_execute"
-	"github.com/Anti-Raid/corelib_go/splashcore"
 	"github.com/anti-raid/eureka/uapi"
 	"github.com/go-chi/chi/v5"
 )
@@ -25,7 +24,7 @@ func (b Router) Routes(r *chi.Mux) {
 		Handler: get_settings.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type: splashcore.TargetTypeUser,
+				Type: "User",
 			},
 		},
 	}.Route(r)
@@ -38,7 +37,7 @@ func (b Router) Routes(r *chi.Mux) {
 		Handler: settings_execute.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type: splashcore.TargetTypeUser,
+				Type: "User",
 			},
 		},
 	}.Route(r)

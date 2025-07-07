@@ -60,7 +60,7 @@ type UserGuildBaseData struct {
 type SettingsExecute struct {
 	Operation string         `json:"operation" description:"The operation type to execute"`
 	Setting   string         `json:"setting" description:"The name of the setting"`
-	Fields    map[string]any `json:"fields" description:"The fields to execute the operation with"`
+	Fields    any `json:"fields" description:"The fields to execute the operation with"`
 }
 
 type DispatchResult struct {

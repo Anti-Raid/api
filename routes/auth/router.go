@@ -6,7 +6,6 @@ import (
 	"github.com/Anti-Raid/api/routes/auth/endpoints/get_user_sessions"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/revoke_user_session"
 	"github.com/Anti-Raid/api/routes/auth/endpoints/test_auth"
-	"github.com/Anti-Raid/corelib_go/splashcore"
 
 	"github.com/anti-raid/eureka/uapi"
 	"github.com/go-chi/chi/v5"
@@ -45,7 +44,7 @@ func (m Router) Routes(r *chi.Mux) {
 		Handler: get_user_sessions.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type:         splashcore.TargetTypeUser,
+				Type:         "User",
 				AllowedScope: "ban_exempt",
 			},
 		},
@@ -59,7 +58,7 @@ func (m Router) Routes(r *chi.Mux) {
 		Handler: create_user_session.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type: splashcore.TargetTypeUser,
+				Type: "User",
 			},
 		},
 	}.Route(r)
@@ -72,7 +71,7 @@ func (m Router) Routes(r *chi.Mux) {
 		Handler: revoke_user_session.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type:         splashcore.TargetTypeUser,
+				Type:         "User",
 				AllowedScope: "ban_exempt",
 			},
 		},

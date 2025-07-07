@@ -4,7 +4,6 @@ import (
 	"github.com/Anti-Raid/api/routes/users/endpoints/get_user"
 	"github.com/Anti-Raid/api/routes/users/endpoints/get_user_guild_base_info"
 	"github.com/Anti-Raid/api/routes/users/endpoints/get_user_guilds"
-	"github.com/Anti-Raid/corelib_go/splashcore"
 	"github.com/anti-raid/eureka/uapi"
 	"github.com/go-chi/chi/v5"
 )
@@ -34,7 +33,7 @@ func (b Router) Routes(r *chi.Mux) {
 		Handler: get_user_guilds.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type: splashcore.TargetTypeUser,
+				Type: "User",
 			},
 		},
 	}.Route(r)
@@ -47,7 +46,7 @@ func (b Router) Routes(r *chi.Mux) {
 		Handler: get_user_guild_base_info.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type: splashcore.TargetTypeUser,
+				Type: "User",
 			},
 		},
 	}.Route(r)

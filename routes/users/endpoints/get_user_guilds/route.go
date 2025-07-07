@@ -9,7 +9,7 @@ import (
 	"github.com/Anti-Raid/api/rpc"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
-	"github.com/Anti-Raid/corelib_go/utils"
+	"github.com/Anti-Raid/api/utils"
 	"github.com/bwmarrin/discordgo"
 	"github.com/jackc/pgx/v5/pgtype"
 	"go.uber.org/zap"

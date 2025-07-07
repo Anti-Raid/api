@@ -16,7 +16,7 @@ type BaseGuildUserInfo struct {
 }
 
 type SettingsOperationRequest struct {
-	Fields  map[string]any `json:"fields"`
+	Fields  any `json:"fields"`
 	Op      string         `json:"op"`
 	Setting string         `json:"setting"`
 }

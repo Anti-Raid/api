@@ -9,21 +9,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Anti-Raid/api/config"
 	"github.com/Anti-Raid/api/state/redishotcache"
-	"github.com/Anti-Raid/corelib_go/config"
-	"github.com/Anti-Raid/corelib_go/objectstorage"
-	"github.com/Anti-Raid/corelib_go/utils"
 	"golang.org/x/net/http2"
 
-	"github.com/bwmarrin/discordgo"
-	"github.com/go-playground/validator/v10"
-	"github.com/go-playground/validator/v10/non-standard/validators"
 	"github.com/anti-raid/eureka/dovewing"
 	"github.com/anti-raid/eureka/dovewing/dovetypes"
-	"github.com/anti-raid/eureka/genconfig"
 	"github.com/anti-raid/eureka/proxy"
 	"github.com/anti-raid/eureka/ratelimit"
 	"github.com/anti-raid/eureka/snippets"
+	"github.com/bwmarrin/discordgo"
+	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/rueidis"
 	"go.uber.org/zap"
@@ -39,7 +35,6 @@ var (
 	Context                 = context.Background()
 	Validator               = validator.New()
 	BotUser                 *discordgo.User
-	ObjectStorage           *objectstorage.ObjectStorage
 	CurrentOperationMode    string // Current mode splashtail is operating in
 	Config                  *config.Config
 
@@ -48,15 +43,6 @@ var (
 )
 
 func Setup() {
-	utils.Must(
-		Validator.RegisterValidation("notblank", validators.NotBlank),
-		Validator.RegisterValidation("nospaces", snippets.ValidatorNoSpaces),
-		Validator.RegisterValidation("https", snippets.ValidatorIsHttps),
-		Validator.RegisterValidation("httporhttps", snippets.ValidatorIsHttpOrHttps),
-	)
-
-	genconfig.GenConfig(config.Config{})
-
 	cfg, err := os.ReadFile("config.yaml")
 
 	if err != nil {
@@ -97,13 +83,6 @@ func Setup() {
 		panic(err)
 	}
 
-	// Object Storage
-	ObjectStorage, err = objectstorage.New(&Config.ObjectStorage)
-
-	if err != nil {
-		panic(err)
-	}
-
 	// Discordgo
 	Discord, err = discordgo.New("Bot " + Config.DiscordAuth.Token)
 
@@ -123,12 +102,6 @@ func Setup() {
 	}
 
 	BotUser = bu
-
-	// Shouldnt be called yet as we don't start websocket
-	Discord.AddHandler(func(s *discordgo.Session, r *discordgo.Ready) {
-		Logger.Info("[DISCORD]", zap.String("note", "ready"))
-		Logger.Info("[DISCORD] Launching with shard count", zap.Int("shard_count", Discord.ShardCount), zap.Int("shard_id", Discord.ShardID))
-	})
 
 	// Load dovewing state
 	baseDovewingState := dovewing.BaseState{
