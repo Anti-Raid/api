@@ -16,9 +16,9 @@ type BaseGuildUserInfo struct {
 }
 
 type SettingsOperationRequest struct {
-	Fields  any `json:"fields"`
-	Op      string         `json:"op"`
-	Setting string         `json:"setting"`
+	Fields  any    `json:"fields"`
+	Op      string `json:"op"`
+	Setting string `json:"setting"`
 }
 
 type DispatchResult struct {

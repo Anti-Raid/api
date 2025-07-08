@@ -58,9 +58,9 @@ type UserGuildBaseData struct {
 
 // SettingsExecute allows execution of a settings operation
 type SettingsExecute struct {
-	Operation string         `json:"operation" description:"The operation type to execute"`
-	Setting   string         `json:"setting" description:"The name of the setting"`
-	Fields    any `json:"fields" description:"The fields to execute the operation with"`
+	Operation string `json:"operation" description:"The operation type to execute"`
+	Setting   string `json:"setting" description:"The name of the setting"`
+	Fields    any    `json:"fields" description:"The fields to execute the operation with"`
 }
 
 type DispatchResult struct {
