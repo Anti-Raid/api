@@ -14,6 +14,7 @@ type DiscordAuth struct {
 	ClientID         string   `yaml:"client_id" default:"849331145862283275" comment:"Discord Client ID" validate:"required"`
 	ClientSecret     string   `yaml:"client_secret" comment:"Discord Client Secret" validate:"required"`
 	AllowedRedirects []string `yaml:"allowed_redirects" default:"http://localhost:3000/auth" validate:"required"`
+	RootUsers        []string `yaml:"root_users" default:"123456789012345678" comment:"List of user IDs that are considered root users and can access all endpoints" validate:"required"`
 }
 
 type Sites struct {

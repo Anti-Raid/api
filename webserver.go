@@ -18,6 +18,7 @@ import (
 	"github.com/Anti-Raid/api/routes/auth"
 	"github.com/Anti-Raid/api/routes/core"
 	"github.com/Anti-Raid/api/routes/guilds"
+	"github.com/Anti-Raid/api/routes/staff"
 	"github.com/Anti-Raid/api/routes/users"
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
@@ -64,7 +65,7 @@ func corsMiddleware(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Headers", "X-Client, Content-Type, Authorization, User-Auth, Server-Auth")
-		w.Header().Set("access-control-expose-headers", "Bucket, Retry-After, Req-Limit, Req-Made, X-Error-Type")
+		w.Header().Set("access-control-expose-headers", "Bucket, Retry-After, Req-Limit, Req-Made, X-Error-Type, X-Proxy-Error")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
 
 		if r.Method == "OPTIONS" {
@@ -123,6 +124,7 @@ func CreateWebserver() *chi.Mux {
 		core.Router{},
 		guilds.Router{},
 		users.Router{},
+		staff.Router{},
 	}
 
 	for _, router := range routers {
