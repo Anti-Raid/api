@@ -19,7 +19,7 @@ func (b Router) Routes(r *chi.Mux) {
 	uapi.Route{
 		Pattern: "/staff/proxy",
 		OpId:    "proxy",
-		Method:  uapi.GET,
+		Method:  uapi.POST,
 		Docs:    proxy.Docs,
 		Handler: proxy.Route,
 		Auth: []uapi.AuthType{

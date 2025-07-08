@@ -31,24 +31,29 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		return hresp
 	}
 
-	if payload.TargetID == "" {
-		return uapi.HttpResponse{
-			Status: http.StatusBadRequest,
-			Json:   types.ApiError{Message: "Target ID is required"},
-		}
-	}
-
 	// Create []AuthType
 	rctx := context.Background()
 	ctx := chi.NewRouteContext()
-	ctx.URLParams.Add("test", payload.TargetID)
-	rctx = context.WithValue(rctx, chi.RouteCtxKey, ctx)
-	authType := []uapi.AuthType{
-		{
-			URLVar:       "test",
-			Type:         payload.AuthType,
-			AllowedScope: "ban_exempt",
-		},
+	var authType []uapi.AuthType
+
+	if payload.TargetID == "" {
+		rctx = context.WithValue(rctx, chi.RouteCtxKey, ctx)
+		authType = []uapi.AuthType{
+			{
+				Type:         payload.AuthType,
+				AllowedScope: "ban_exempt",
+			},
+		}
+	} else {
+		ctx.URLParams.Add("test", payload.TargetID)
+		rctx = context.WithValue(rctx, chi.RouteCtxKey, ctx)
+		authType = []uapi.AuthType{
+			{
+				URLVar:       "test",
+				Type:         payload.AuthType,
+				AllowedScope: "ban_exempt",
+			},
+		}
 	}
 
 	reqCtxd := r.WithContext(rctx)
