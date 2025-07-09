@@ -2,7 +2,6 @@ package staff
 
 import (
 	"github.com/Anti-Raid/api/routes/staff/endpoints/proxy"
-	"github.com/Anti-Raid/corelib_go/splashcore"
 	"github.com/anti-raid/eureka/uapi"
 	"github.com/go-chi/chi/v5"
 )
@@ -24,7 +23,7 @@ func (b Router) Routes(r *chi.Mux) {
 		Handler: proxy.Route,
 		Auth: []uapi.AuthType{
 			{
-				Type: splashcore.TargetTypeUser,
+				Type: "User",
 			},
 		},
 	}.Route(r)

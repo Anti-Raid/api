@@ -1,5 +1,3 @@
-github.com/Anti-Raid/corelib_go v0.0.0-20250328234447-63027bd0a12c h1:Tl0liq6N6isELNcQvgQXUeDWjrPuRWRmYIdV63M16uc=
-github.com/Anti-Raid/corelib_go v0.0.0-20250328234447-63027bd0a12c/go.mod h1:qiFU5ncjMUBv6TVqqFLkXaMsF03CJqEx5/fAK3r2I1s=
 github.com/anti-raid/eureka v1.13.0 h1:P1aC6h1oMhZ2F4nnN+ZvIvkaL9MZtyJ+SNxFwDjxUtQ=
 github.com/anti-raid/eureka v1.13.0/go.mod h1:TnwN8V4e2NMm4wMe94aL3W3ubRXRlNu4NnIGCxFJxDM=
 github.com/anti-raid/eureka v1.14.0 h1:qVmirEQWERIiI8Pjf13RRy0o+GFOzNMcDEZNF4gKDoE=

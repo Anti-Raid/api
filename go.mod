@@ -17,7 +17,6 @@ require (
 )
 
 require (
-	github.com/Anti-Raid/corelib_go v0.0.0-20250328234447-63027bd0a12c
 	golang.org/x/net v0.41.0
 )
 
