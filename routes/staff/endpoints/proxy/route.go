@@ -23,6 +23,7 @@ func Docs() *docs.Doc {
 		Description: "Proxy for staff operations, allowing for moderation and management of AntiRaid services.",
 		Req:         types.SettingsExecute{},
 		Resp:        map[string]any{},
+		RespName:    "AnyStaffProxyResp",
 		Params: []docs.Parameter{
 			{
 				Name:        "__service",

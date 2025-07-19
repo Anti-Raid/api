@@ -20,6 +20,7 @@ func Docs() *docs.Doc {
 		Description: "Get Settings for a Guild User",
 		Req:         types.SettingsExecute{},
 		Resp:        map[string]any{},
+		RespName:    "AnySetting",
 		Params: []docs.Parameter{
 			{
 				Name:        "guild_id",

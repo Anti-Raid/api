@@ -21,6 +21,7 @@ func Docs() *docs.Doc {
 		Description: "Execute a settings operation (list/create/update/delete).",
 		Req:         types.SettingsExecute{},
 		Resp:        map[string]types.DispatchResult{},
+		RespName:    "mapOfDispatchResult",
 		Params: []docs.Parameter{
 			{
 				Name:        "guild_id",

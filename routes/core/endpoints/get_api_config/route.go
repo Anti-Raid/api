@@ -14,7 +14,7 @@ func Docs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Get API Config",
 		Description: "This endpoint returns the API configuration.",
-		Resp:        []types.ApiConfig{},
+		Resp:        types.ApiConfig{},
 		Params:      []docs.Parameter{},
 	}
 }

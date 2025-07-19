@@ -19,7 +19,7 @@ func Docs() *docs.Doc {
 	return &docs.Doc{
 		Summary:     "Get Bot Stats",
 		Description: "This endpoint returns the current stats of the bot. Note that these results may be cached and may not be up to date.",
-		Resp:        []types.GetStatusResponse{},
+		Resp:        types.GetStatusResponse{},
 		Params:      []docs.Parameter{},
 	}
 }
