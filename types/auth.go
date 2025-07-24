@@ -27,10 +27,18 @@ type CreateUserSession struct {
 }
 
 type CreateUserSessionResponse struct {
-	UserID    string    `json:"user_id" description:"The ID of the user who created the session"`
-	Token     string    `json:"token" description:"The token of the session"`
-	SessionID string    `json:"session_id" description:"The ID of the session"`
-	Expiry    time.Time `json:"expiry" description:"The time the session expires"`
+	UserID    string       `json:"user_id" description:"The ID of the user who created the session"`
+	Token     string       `json:"token" description:"The token of the session"`
+	SessionID string       `json:"session_id" description:"The ID of the session"`
+	Expiry    time.Time    `json:"expiry" description:"The time the session expires"`
+	User      *PartialUser `json:"user,omitempty" description:"The user who created the session (only sent on OAuth2 login)"`
+}
+
+type PartialUser struct {
+	ID         string `json:"id" description:"The ID of the user"`
+	Username   string `json:"username" description:"The username of the user"`
+	GlobalName string `json:"global_name,omitempty" description:"The global name of the user, if set"`
+	Avatar     string `json:"avatar,omitempty" description:"The avatar hash of the user, if set"`
 }
 
 type UserSessionList struct {

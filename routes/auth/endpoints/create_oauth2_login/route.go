@@ -10,6 +10,7 @@ import (
 
 	"github.com/Anti-Raid/api/state"
 	"github.com/Anti-Raid/api/types"
+	"github.com/bwmarrin/discordgo"
 	"github.com/redis/rueidis"
 
 	"github.com/anti-raid/eureka/jsonimpl"
@@ -18,8 +19,8 @@ import (
 	docs "github.com/anti-raid/eureka/doclib"
 	"github.com/anti-raid/eureka/uapi"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/anti-raid/eureka/crypto"
+	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slices"
 )
@@ -35,13 +36,6 @@ func Docs() *docs.Doc {
 		Req:         types.AuthorizeRequest{},
 		Resp:        types.CreateUserSessionResponse{},
 	}
-}
-
-// OauthInfo struct for oauth2 info
-type oauthUser struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Disc     string `json:"discriminator"`
 }
 
 func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
@@ -260,7 +254,7 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		}
 	}
 
-	var user oauthUser
+	var user discordgo.User
 
 	err = jsonimpl.Unmarshal(body, &user)
 
@@ -398,6 +392,12 @@ func Route(d uapi.RouteData, r *http.Request) uapi.HttpResponse {
 		SessionID: sessionId,
 		Token:     sessionToken,
 		Expiry:    expiry,
+		User: &types.PartialUser{
+			ID:         user.ID,
+			Username:   user.Username,
+			GlobalName: user.GlobalName,
+			Avatar:     user.Avatar,
+		},
 	}
 
 	return uapi.HttpResponse{
